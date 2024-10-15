@@ -13,10 +13,15 @@ def afficher_grille(grille):
     Sortie:
         grille_str (string): string clair et printable.'''
     
-    grille_str = ""
-    for i in grille: # Parcourrir le tableau
-        for j in i: # Parcourrir la ligne
-            grille_str += "["+j+"]" # Ajouter la valeur de la case entre crochets
+    grille_str = "[_]"
+    for i in range(len(grille[0])): # Ajouter le numéro de colonne
+        grille_str += "["+chr(65+i)+"]"
+    grille_str += "\n" # Retour à la ligne
+
+    for i in range(len(grille)): # Parcourrir le tableau
+        grille_str += "["+str(i+1)+"]" # Ajouter le numéro de ligne
+        for j in range(len(grille[i])): # Parcourrir la ligne
+            grille_str += "["+grille[i][j]+"]" # Ajouter la valeur de la case entre crochets
         grille_str += "\n" # Retour à la ligne une fois la colonne finie
     return grille_str
 
