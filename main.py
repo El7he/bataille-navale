@@ -15,7 +15,7 @@ def afficher_grille(grille):
     
     grille_str = "[_]"
     for i in range(len(grille[0])): # Ajouter le numéro de colonne
-        grille_str += "["+chr(65+i)+"]"
+        grille_str += "["+chr(65+i)+"]" # Récupération de la lettre correspondante
     grille_str += "\n" # Retour à la ligne
 
     for i in range(len(grille)): # Parcourrir le tableau
@@ -43,6 +43,26 @@ def generer_grille(l,h):
         grille.append(temp) # ajout des listes
     return grille
 
-grille = generer_grille(10,10)
-grille[1][2] = "X"
-print(afficher_grille(grille))    
+def convert_case(case):
+    '''Transforme un str de case en position utilisable
+    
+    Entrée:
+        case (str): position de la case
+        
+    Sortie:
+        pos (tuple, int): position correspondante dans la grille'''
+    x = int(ord(case[0])-65)
+    y = int(case[1:])-1
+    return (y,x) # y x car coordonées inversées
+
+grille_joueurs = []
+grille_joueurs.append(generer_grille(10,10)) # Générer les grilles des joueurs.
+grille_joueurs.append(generer_grille(10,10))
+
+placement = True
+while placement:
+    print(afficher_grille(grille_joueurs[0])) # Afficher la grille vide pour aider le joueur à se repérer.
+    case = convert_case(input("Quelle case choisissez vous? Format lettre chiffre (i.e C4 H8)"))
+    print(case)
+    grille_joueurs[0][case[0]][case[1]] = "X" # Système temporaire selection de cases
+    
