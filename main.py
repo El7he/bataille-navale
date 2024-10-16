@@ -1,5 +1,7 @@
 # Projet par Louis-Théo WIRTH, création du doc. 15/10/24 15:30.
 
+import time
+
 def afficher_grille(grille, cacher=False):
     '''Transforme la grille en entrée en grille de type string.
 
@@ -79,6 +81,14 @@ def signe(nb):
         return
     
 def demander_case(str,annulable=False):
+    '''Demande la case, si elle est en dehors des positions définies, redemande
+    
+    Entrée:
+        str (string): string de la question
+        annulable (boolean optional): dit si on peut écrire 'Annuler' pour return annuler
+        
+    Sortie:
+        nom_case (string): Annuler ou position de case'''
     nom_case = input(str)
     if annulable == True:
         if nom_case == "Annuler": return "Annuler"
@@ -94,18 +104,19 @@ def demander_case(str,annulable=False):
 grille_joueurs = []
 grille_joueurs.append(generer_grille(10,10)) # Générer les grilles des joueurs.
 grille_joueurs.append(generer_grille(10,10))
+grille_joueurs[0][4][4] = 'O'
+grille_joueurs[1][4][4] = 'O'
 
-placement = True
+'''placement = True
 for joueur in range(2):
     print(afficher_grille(grille_joueurs[joueur])) # Afficher la grille vide pour aider le joueur à se repérer.
 
     print("Placement des bateaux")
-    for h in range(2,7):
+    for h in range(2,7): # Pour avoir les tailles de bateaux : 2,3,3,4,5
         if h <4:
-            i = h
+            i = h # 2, 3
         else:
-            i = h-1
-        print(afficher_grille(grille_joueurs[joueur]))
+            i = h-1 # 3, 4, 5
         print("Placement du bateau de taille ",i) # Indique la taille du bateau à placer
         
         # Demande la première case de placement du bateau
@@ -157,4 +168,48 @@ for joueur in range(2):
                     continuer = True # Placement valide, sortie de la boucle
             else:
                 print("Placement invalide.")
-print("\n\n\n\n\n\n\n\n\n\nDebut de partie!")
+        print(afficher_grille(grille_joueurs[joueur]))
+    print("\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nAutre joueur!")
+print("\n\n\n\n\n\n\n\n\n\nDebut de partie!")'''
+
+continuer = True # Variable de contrôle pour la boucle principale, qui permet de continuer le jeu
+while continuer: # Boucle principale du jeu qui continue tant que 'continuer' est True
+    for joueur in range(2): # Boucle pour alterner entre les deux joueurs (joueur 0 et joueur 1)
+        print('Tour du joueur '+str(joueur+1)+'!')
+        time.sleep(0.5)
+        while True: # Boucle qui demande au joueur de choisir une case valide pour attaquer
+            print(afficher_grille(grille_joueurs[1-joueur],True)) # Affiche la grille de l'adversaire (1-joueur) en masquant les informations cachées (True)
+            nom_case = demander_case(f"Quelle case choisissez-vous d'attaquer? Format lettre chiffre (i.e C4 H8)")
+            case = convert_case(nom_case)
+            if grille_joueurs[1-joueur][case[0]][case[1]] == "O": # Si la case contient un "O" (cela signifie qu'un bateau est présent)
+                grille_joueurs[1-joueur][case[0]][case[1]] = "@" # Marque la case comme touchée avec "@"
+                print(afficher_grille(grille_joueurs[1-joueur],True))
+                print("Touché!") # Indique au joueur que le coup a touché un bateau
+                time.sleep(1) # Pause de 1 seconde pour donner du temps au joueur avant de continuer
+
+
+                sum = 0 # Initialise la variable `sum` à 0 pour compter les cases restantes contenant "O" (non touchées)
+                for i in range(len(grille_joueurs[joueur])): # Parcourt la grille du joueur pour vérifier s'il reste des cases contenant "O" (bateaux non touchés)
+                    for j in range(len(grille_joueurs[joueur][i])):
+                        if grille_joueurs[joueur][i][j] == '0': # Si une case contient encore "O", cela signifie qu'il reste un bateau
+                            sum +=1
+                            
+                    if sum == 0: # Si `sum` est égal à 0, cela signifie qu'il n'y a plus de cases "O" (tous les bateaux sont coulés)
+                        continuer = 0 # Met fin à la partie en réglant la variable `continuer` à 0 (faux)
+                        vainqueur = 1-i # 1-i pour avoir l'index de l'autre joueur. (affiche le joueur 1 à chaque fois, à régler)
+                        break # Sort de la boucle immédiatement car le jeu est terminé
+                    break
+                break # Sort de la boucle interne après un coup réussi (le joueur a touché un bateau)
+
+            elif grille_joueurs[1-joueur][case[0]][case[1]] == "_": # Si la case contient un "_", cela signifie que c'est une case vide (coup manqué)
+                grille_joueurs[1-joueur][case[0]][case[1]] = "X" # Marque la case comme manquée avec "X"
+                print(afficher_grille(grille_joueurs[1-joueur],True)) # Affiche la grille de l'adversaire mise à jour après le coup manqué
+                print("Coulé") # Indique au joueur que le coup a manqué le bateau
+                time.sleep(1) 
+                break # Sort de la boucle interne après un coup manqué
+            else: # Si la case ne contient ni "O" ni "_", cela signifie qu'elle à déjà attaquée
+                print("Position invalide.")
+
+print("Le joueur "+str(vainqueur)+" gagne!")
+
+            
