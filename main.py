@@ -139,9 +139,7 @@ for joueur in range(2):
                     grille_joueurs[joueur][case[0]+j*dir][case[1]+j*(1-dir)] = "O"  # Place "O" pour chaque case du bateau.
             print(afficher_grille(grille_joueurs[joueur]))
             
-
     else:
-        print(afficher_grille(grille_joueurs[joueur])) # Afficher la grille vide pour aider le joueur à se repérer.
 
         print("Placement des bateaux")
         for h in range(2,7): # Pour avoir les tailles de bateaux : 2,3,3,4,5
@@ -149,6 +147,7 @@ for joueur in range(2):
                 i = h # 2, 3
             else:
                 i = h-1 # 3, 4, 5
+            print(afficher_grille(grille_joueurs[joueur])) # Afficher la grille vide pour aider le joueur à se repérer.
             print("Placement du bateau de taille ",i) # Indique la taille du bateau à placer
             
             # Demande la première case de placement du bateau
@@ -165,9 +164,9 @@ for joueur in range(2):
                 print(afficher_grille(grille_joueurs[joueur]))
                 # Boucle pour gérer la deuxième position ou annuler
                 while True:
-                    nom_case = demander_case(f"Position 2 : Quelle case choisissez-vous? Format lettre chiffre (i.e C4 H8), Espacée de {i} cases par rapport à {nom_case} ('Annuler' pour repositionner la 1ere case).",True)
+                    nom_case2 = demander_case(f"Position 2 : Quelle case choisissez-vous? Format lettre chiffre (i.e C4 H8), Espacée de {i} cases par rapport à {nom_case} ('Annuler' pour repositionner la 1ere case).",True)
 
-                    if nom_case == "Annuler":
+                    if nom_case2 == "Annuler":
                         # Réinitialise la première case et redemande la saisie
                         grille_joueurs[joueur][case[0]][case[1]] = "_"  # Remet la première case à "_"
                         nom_case = demander_case("Position 1 : Quelle case choisissez-vous? Format lettre chiffre (i.e C4 H8)")
@@ -184,7 +183,7 @@ for joueur in range(2):
 
                     else:
                         # Convertit la deuxième case si elle est valide
-                        case2 = convert_case(nom_case)
+                        case2 = convert_case(nom_case2)
                         break  # Sort de la boucle si la deuxième case est valide
 
                 d = [(case[0]-case2[0]),(case[1]-case2[1])]  # Calcule la différence entre les deux cases choisies pour s'assurer que l'espacement est correct
