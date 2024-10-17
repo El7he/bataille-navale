@@ -104,41 +104,38 @@ def demander_case(str,annulable=False):
 grille_joueurs = []
 grille_joueurs.append(generer_grille(10,10)) # Générer les grilles des joueurs.
 grille_joueurs.append(generer_grille(10,10))
-ia = 1
+ia = int(input("Contre qui voulez vous jouer?\n0:Un autre joueur en local\n1:IA aléatoire:"))
 
 placement = True
 for joueur in range(2):
     if (ia != 0) and (joueur == 1):  # Si IA est activée (ia != 0) et que c'est le joueur 2 (IA), alors on continue.
-        if ia == 1:  # Si l'IA est de niveau 1.
-            print("Placement des bateaux")  # Indique le début du placement des bateaux pour l'IA.
-            for h in range(2,7):  # Parcourt les tailles de bateaux : 2, 3, 3, 4, 5.
-                if h < 4:
-                    i = h  # Les bateaux de taille 2 ou 3.
-                else:
-                    i = h-1  # Les bateaux de taille 3, 4, ou 5 (car deux bateaux de taille 3).
-                
-                condition_break = False  # Indicateur de sortie de la boucle de placement.
-                dir = random.randint(0, 1)  # Direction aléatoire du bateau : 0 = horizontal, 1 = vertical.
-                while True:  # Boucle infinie pour trouver une position valide pour placer le bateau.
-                    # Sélectionne une case de départ aléatoire sur la grille en fonction de la taille du bateau.
-                    case = (random.randint(0, 9-i+1), random.randint(0, 9-i+1))
-                    print(case)
-                    
-                    # Vérifie si la case de départ est libre (valeur "_").
-                    if grille_joueurs[joueur][case[0]][case[1]] == "_":
-                        condition_break = True
-                        for j in range(i):  # Vérifie si toutes les cases adjacentes pour le bateau sont libres.
-                            if grille_joueurs[joueur][case[0]+j*dir][case[1]+j*(1-dir)] == "O":
-                                condition_break = False  # Si une case est libre, on sort de la boucle de vérification.
-                                break  # Sort de la boucle si une case est validée.
-                    if condition_break == True:  # Si une position valide est trouvée, on sort de la boucle while.
-                        break
-
-                # Place le bateau en remplissant les cases avec "O".
-                for j in range(i):  # Remplit chaque case de la taille du bateau avec "O".
-                    grille_joueurs[joueur][case[0]+j*dir][case[1]+j*(1-dir)] = "O"  # Place "O" pour chaque case du bateau.
-            print(afficher_grille(grille_joueurs[joueur]))
+        print("Placement des bateaux")  # Indique le début du placement des bateaux pour l'IA.
+        for h in range(2,7):  # Parcourt les tailles de bateaux : 2, 3, 3, 4, 5.
+            if h < 4:
+                i = h  # Les bateaux de taille 2 ou 3.
+            else:
+                i = h-1  # Les bateaux de taille 3, 4, ou 5 (car deux bateaux de taille 3).
             
+            condition_break = False  # Indicateur de sortie de la boucle de placement.
+            dir = random.randint(0, 1)  # Direction aléatoire du bateau : 0 = horizontal, 1 = vertical.
+            while True:  # Boucle infinie pour trouver une position valide pour placer le bateau.
+                # Sélectionne une case de départ aléatoire sur la grille en fonction de la taille du bateau.
+                case = (random.randint(0, 9-i+1), random.randint(0, 9-i+1))
+                
+                # Vérifie si la case de départ est libre (valeur "_").
+                if grille_joueurs[joueur][case[0]][case[1]] == "_":
+                    condition_break = True
+                    for j in range(i):  # Vérifie si toutes les cases adjacentes pour le bateau sont libres.
+                        if grille_joueurs[joueur][case[0]+j*dir][case[1]+j*(1-dir)] == "O":
+                            condition_break = False  # Si une case est libre, on sort de la boucle de vérification.
+                            break  # Sort de la boucle si une case est validée.
+                if condition_break == True:  # Si une position valide est trouvée, on sort de la boucle while.
+                    break
+
+            # Place le bateau en remplissant les cases avec "O".
+            for j in range(i):  # Remplit chaque case de la taille du bateau avec "O".
+                grille_joueurs[joueur][case[0]+j*dir][case[1]+j*(1-dir)] = "O"  # Place "O" pour chaque case du bateau.
+        print(afficher_grille(grille_joueurs[joueur]))
     else:
 
         print("Placement des bateaux")
@@ -242,7 +239,7 @@ while continuer: # Boucle principale du jeu qui continue tant que 'continuer' es
         elif grille_joueurs[1-joueur][case[0]][case[1]] == "_": # Si la case contient un "_", cela signifie que c'est une case vide (coup manqué)
             grille_joueurs[1-joueur][case[0]][case[1]] = "X" # Marque la case comme manquée avec "X"
             print(afficher_grille(grille_joueurs[1-joueur],True)) # Affiche la grille de l'adversaire mise à jour après le coup manqué
-            print("Coulé") # Indique au joueur que le coup a manqué le bateau
+            print("Manqué...") # Indique au joueur que le coup a manqué le bateau
             time.sleep(1) 
             break # Sort de la boucle interne après un coup manqué
         else: # Si la case ne contient ni "O" ni "_", cela signifie qu'elle à déjà attaquée
