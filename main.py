@@ -108,7 +108,7 @@ ia = 1
 
 placement = True
 for joueur in range(2):
-    if (ia != 0):  # Si IA est activée (ia != 0) et que c'est le joueur 1 (IA), alors on continue.
+    if (ia != 0) and (joueur == 1):  # Si IA est activée (ia != 0) et que c'est le joueur 2 (IA), alors on continue.
         if ia == 1:  # Si l'IA est de niveau 1.
             print("Placement des bateaux")  # Indique le début du placement des bateaux pour l'IA.
             for h in range(2,7):  # Parcourt les tailles de bateaux : 2, 3, 3, 4, 5.
