@@ -1,6 +1,6 @@
-Instructions d'installation : N/a
+Instructions d'installation : Télécharger main.py et python. (https://www.python.org/downloads/)
 
-Lancement : N/a
+Lancement : Ouvrir cmd dans le dossier ou vous avez téléchargé le dossier et écrivez "Python main.py" dans le terminal de commandes.
 
 Règles : 
     Deux joueurs possèdent chacun une grille 10x10 sur laquelle ils placent 5 bateaux.
