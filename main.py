@@ -161,7 +161,7 @@ for joueur in range(2):
                 print(afficher_grille(grille_joueurs[joueur]))
                 # Boucle pour gérer la deuxième position ou annuler
                 while True:
-                    nom_case2 = demander_case(f"Position 2 : Quelle case choisissez-vous? Format lettre chiffre (i.e C4 H8), Espacée de {i} cases par rapport à {nom_case} ('Annuler' pour repositionner la 1ere case).",True)
+                    nom_case2 = demander_case(f"Position 2 : Quelle case choisissez-vous? Format lettre chiffre (i.e C4 H8), Espacée de {i-1} cases par rapport à {nom_case} ('Annuler' pour repositionner la 1ere case).",True)
 
                     if nom_case2 == "Annuler":
                         # Réinitialise la première case et redemande la saisie
